@@ -18,22 +18,22 @@ namespace Version_1_C
             InitializeComponent();
         }
 
-        private clsArtistList theArtistList = new clsArtistList();
-        private const string fileName = "gallery.xml";
+        private clsArtistList _ArtistList; // 5f vii = new clsArtistList();
+        //private const string fileName = "gallery.xml";
 
         private void UpdateDisplay()
         {
-            string[] lcDisplayList = new string[theArtistList.Count];
+            string[] lcDisplayList = new string[_ArtistList.Count];
 
             lstArtists.DataSource = null;
-            theArtistList.Keys.CopyTo(lcDisplayList, 0);
+            _ArtistList.Keys.CopyTo(lcDisplayList, 0);
             lstArtists.DataSource = lcDisplayList;
-            lblValue.Text = Convert.ToString(theArtistList.GetTotalValue());
+            lblValue.Text = Convert.ToString(_ArtistList.GetTotalValue());
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            theArtistList.NewArtist();
+            _ArtistList.NewArtist();
             UpdateDisplay();
         }
 
@@ -44,14 +44,14 @@ namespace Version_1_C
             lcKey = Convert.ToString(lstArtists.SelectedItem);
             if (lcKey != null)
             {
-                theArtistList.EditArtist(lcKey);
+                _ArtistList.EditArtist(lcKey);
                 UpdateDisplay();
             }
         }
 
         private void btnQuit_Click(object sender, EventArgs e)
         {
-            Save();
+            _ArtistList.Save();
             Close();
         }
 
@@ -63,50 +63,51 @@ namespace Version_1_C
             if (lcKey != null)
             {
                 lstArtists.ClearSelected();
-                theArtistList.Remove(lcKey);
+                _ArtistList.Remove(lcKey);
                 UpdateDisplay();
             }
         }
 
-        private void Save()
-        {
-            try
-            {
-                System.IO.FileStream lcFileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Create);
-                System.Runtime.Serialization.Formatters.Soap.SoapFormatter lcFormatter =
-                    new System.Runtime.Serialization.Formatters.Soap.SoapFormatter();
+        //private void Save()
+        //{
+        //    try
+        //    {
+        //        System.IO.FileStream lcFileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Create);
+        //        System.Runtime.Serialization.Formatters.Soap.SoapFormatter lcFormatter =
+        //            new System.Runtime.Serialization.Formatters.Soap.SoapFormatter();
 
-                lcFormatter.Serialize(lcFileStream, theArtistList);
-                lcFileStream.Close();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "File Save Error");
-            }
-        }
+        //        lcFormatter.Serialize(lcFileStream, theArtistList);
+        //        lcFileStream.Close();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message, "File Save Error");
+        //    }
+        //}
 
-        private void Retrieve()
-        {
-            try
-            {
-                System.IO.FileStream lcFileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
-                System.Runtime.Serialization.Formatters.Soap.SoapFormatter lcFormatter =
-                    new System.Runtime.Serialization.Formatters.Soap.SoapFormatter();
+        //private void Retrieve()
+        //{
+        //    try
+        //    {
+        //        System.IO.FileStream lcFileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open);
+        //        System.Runtime.Serialization.Formatters.Soap.SoapFormatter lcFormatter =
+        //            new System.Runtime.Serialization.Formatters.Soap.SoapFormatter();
 
-                theArtistList = (clsArtistList)lcFormatter.Deserialize(lcFileStream);
-                UpdateDisplay();
-                lcFileStream.Close();
-            }
+        //        theArtistList = (clsArtistList)lcFormatter.Deserialize(lcFileStream);
+        //        UpdateDisplay();
+        //        lcFileStream.Close();
+        //    }
 
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "File Retrieve Error");
-            }
-        }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show(e.Message, "File Retrieve Error");
+        //    }
+        //}
 
+        // Chris Lab1 Prt.6 / g. 14/03/2016.
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Retrieve();
+            _ArtistList = clsArtistList.Retrieve();
             UpdateDisplay();
         }
     }

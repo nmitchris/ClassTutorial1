@@ -1,9 +1,5 @@
 using System;
 //using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Version_1_C
@@ -21,6 +17,7 @@ namespace Version_1_C
 
         private void UpdateDisplay()
         {
+            theArtistList.Save();
             txtName.Enabled = txtName.Text == "";
             if (sortOrder == 0)
             {
