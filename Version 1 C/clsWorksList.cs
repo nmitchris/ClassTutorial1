@@ -7,9 +7,12 @@ namespace Version_1_C
     [Serializable()] 
     public class clsWorksList : ArrayList
     {
-        private static clsNameComparer theNameComparer = new clsNameComparer();
-        private static clsDateComparer theDateComparer = new clsDateComparer();
-        
+        private static clsNameComparer _NameComparer = new clsNameComparer();
+        private static clsDateComparer _DateComparer = new clsDateComparer();
+        private byte _SortOrder;
+
+        //20160412 - Stage 1 - Refactoring Q.7:'Move Field' from clsArtist Cd'E
+
         public void AddWork()
         {
             clsWork lcWork = clsWork.NewWork();
@@ -55,12 +58,28 @@ namespace Version_1_C
 
          public void SortByName()
          {
-             Sort(theNameComparer);
+             Sort(_NameComparer);
          }
     
         public void SortByDate()
         {
-            Sort(theDateComparer);
+            Sort(_DateComparer);
         }
+
+        //20160412 - Stage 1 - Refactoring Q.7:'Move Field' from clsArtist 
+        //Right click " private byte sortOrder;", (above), 'Quick Actions' Encapsulate Field & create properties Cd'E
+        public byte SortOrder
+        {
+            get
+            {
+                return _SortOrder;
+            }
+
+            set
+            {
+                _SortOrder = value;
+            }
+        }
+
     }
 }

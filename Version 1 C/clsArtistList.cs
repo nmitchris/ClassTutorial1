@@ -6,7 +6,8 @@ namespace Version_1_C
 {
     [Serializable()]
 
-     public class clsArtistList : SortedList
+    public class clsArtistList : SortedList
+
     {
         // Chris Lab1 Prt.6 / c. 14/03/2016.
         // private clsArtistList _ArtistList = new clsArtistList();
@@ -22,30 +23,34 @@ namespace Version_1_C
                 MessageBox.Show("Sorry no artist by this name");
         }
 
-       
+        // Stage.1 Q.8b 12/04/2016.
         public void NewArtist()
         {
             clsArtist lcArtist = new clsArtist(this);
-            try
-            {
-                if (lcArtist.GetKey() != "")
-                {
-                    Add(lcArtist.GetKey(), lcArtist);
-                    MessageBox.Show("Artist added!");
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Duplicate Key!");
-            }
+            if (lcArtist.Name != "")
+                Add(lcArtist.Name, lcArtist);
         }
-        
+        //{
+        //    clsArtist lcArtist = new clsArtist(this);
+        //    try
+        //    {
+        //        if (lcArtist.GetKey() != "")
+        //        {
+        //            Add(lcArtist.GetKey(), lcArtist);
+        //            MessageBox.Show("Artist added!");
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        MessageBox.Show("Duplicate Key!");
+        //    }
+
         public decimal GetTotalValue()
         {
             decimal lcTotal = 0;
             foreach (clsArtist lcArtist in Values)
             {
-                lcTotal += lcArtist.GetWorksValue();
+                lcTotal += lcArtist.TotalValue;
             }
             return lcTotal;
         }
@@ -79,7 +84,7 @@ namespace Version_1_C
                     new System.Runtime.Serialization.Formatters.Soap.SoapFormatter();
 
                 lcArtistList = (clsArtistList)lcFormatter.Deserialize(lcFileStream);
-               // UpdateDisplay();
+                // UpdateDisplay();
                 lcFileStream.Close();
             }
             catch (Exception e)
